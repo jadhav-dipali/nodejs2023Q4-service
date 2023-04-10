@@ -4,8 +4,7 @@ const mongoose = require("mongoose")
 
 const AlbumSchema = mongoose.Schema({
     _id:{
-        type:String,
-       
+        type:String,  
     },
     name:{
         type:String
@@ -14,7 +13,7 @@ const AlbumSchema = mongoose.Schema({
         type:Number
     },
     artistId:{
-        type:Number
+        type:String
     }
 })
 

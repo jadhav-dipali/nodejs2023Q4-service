@@ -7,7 +7,7 @@ const unique_id = uuid.v4();
 // create data
 UserRouter.post("/user" ,async(req,res)=>{
     try{
-        let strongPass = bcrypt.hash(req.body.password ,10)
+        let strongPass = await bcrypt.hash(req.body.password ,10)
         let data = new User({
             _id:unique_id,
             password:strongPass,
@@ -46,8 +46,15 @@ UserRouter.get("/user/:id" , async (req,res)=>{
 UserRouter.put("/user/:id" , async(req,res)=>{
     try{
         let _id = req.params.id;
-        let updateData =  await User.findByIdAndUpdate(_id , req.body , {new:true})
-        res.send(updateData)
+        let user = await User.findOne({_id:_id});
+        // console.log(user)
+        let matchPass= await bcrypt.compare(req.body.oldPassword , user.password);
+        // console.log(matchPass)
+        if(matchPass){
+            let updateData =  await User.findByIdAndUpdate(_id , {password:req.body.password} , {new:true})
+            res.send(updateData)
+        }
+        
     }catch(err){
         res.status(400).send(err.message)
     }

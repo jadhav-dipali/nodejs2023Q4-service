@@ -3,15 +3,18 @@ const mongoose = require("mongoose")
 
 
 const FavoritesSchema = mongoose.Schema({
-    artists:{
+    _id:{
         type:String,
+    },
+    artists:{
+        type:[String],
       
     },
     albums:{
-        type:String
+        type:[String]
     },
     tracks:{
-        type:Number
+        type:[String]
     }
 })
 

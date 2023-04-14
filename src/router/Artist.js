@@ -3,6 +3,8 @@ const ArtistRouter = express.Router();
 const Artist = require("../model/ArtistSchema")
 const uuid = require("uuid")
 const unique_id = uuid.v4();
+const Album = require("../model/AlbumSchema")
+const Track = require("../model/TrackSchema");
 
 // create data
 ArtistRouter.post("/artist" ,async(req,res)=>{
@@ -52,6 +54,16 @@ ArtistRouter.put("/artist/:id" , async(req,res)=>{
 ArtistRouter.delete("/artist/:id" , async(req,res)=>{
     try{
         let _id = req.params.id;
+        // let findAlbumup=await Album.findByIdAndUpdate({artistId:_id},{artistId:null})
+        // console.log(findAlbumup)
+       
+        let updateAlbum= await Album.updateMany({artistId:_id},{artistId:null})
+        let updateTrack = await Track.updateMany({artistId:_id},{artistId:null})
+
+
+        console.log(updateAlbum)    
+        console.log(updateTrack)
+
         let deleteData =  await Artist.findByIdAndDelete(_id)
         res.send(deleteData)
     }catch(err){

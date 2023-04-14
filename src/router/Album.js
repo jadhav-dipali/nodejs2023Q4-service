@@ -1,6 +1,7 @@
 const express = require("express")
 const AlbumRouter = new express.Router()
 const Album = require("../model/AlbumSchema")
+const Track = require("../model/TrackSchema")
 const uuid = require("uuid")
 const unique_id = uuid.v4();
 
@@ -52,6 +53,7 @@ AlbumRouter.put("/album/:id" , async(req,res)=>{
 AlbumRouter.delete("/album/:id" , async(req,res)=>{
     try{
         let _id = req.params.id;
+        let updateTrack = await Track.updateMany({albumId:_id},{albumId:null})
         let deleteData =  await Album.findByIdAndDelete(_id)
         res.send(deleteData)
     }catch(err){
